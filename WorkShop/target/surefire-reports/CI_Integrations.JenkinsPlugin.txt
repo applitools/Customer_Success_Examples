@@ -1,0 +1,12 @@
+-------------------------------------------------------------------------------
+Test set: CI_Integrations.JenkinsPlugin
+-------------------------------------------------------------------------------
+Tests run: 2, Failures: 2, Errors: 0, Skipped: 0, Time elapsed: 28.222 s <<< FAILURE! - in CI_Integrations.JenkinsPlugin
+TestCheckWindow on TestCheckWindow(CI_Integrations.JenkinsPlugin)(CI_Integrations.JenkinsPlugin)  Time elapsed: 14.012 s  <<< FAILURE!
+com.applitools.eyes.exceptions.DiffsFoundException: Test 'TestCheckWindow' of 'Applitools_Demo' detected differences! See details at: https://eyes.applitools.com/app/batches/00000251884804011415/00000251884804010141?accountId=ZZFuPvFFXEmhjSdKex8kLQ~~
+	at CI_Integrations.JenkinsPlugin.tearDown(JenkinsPlugin.java:64)
+
+TestCheckWindowIgnoreAndFloatingRegion on TestCheckWindowIgnoreAndFloatingRegion(CI_Integrations.JenkinsPlugin)(CI_Integrations.JenkinsPlugin)  Time elapsed: 13.844 s  <<< FAILURE!
+com.applitools.eyes.exceptions.DiffsFoundException: Test 'TestCheckWindowIgnoreAndFloatingRegion' of 'Applitools_Demo' detected differences! See details at: https://eyes.applitools.com/app/batches/00000251884804011415/00000251884803998897?accountId=ZZFuPvFFXEmhjSdKex8kLQ~~
+	at CI_Integrations.JenkinsPlugin.tearDown(JenkinsPlugin.java:64)
+

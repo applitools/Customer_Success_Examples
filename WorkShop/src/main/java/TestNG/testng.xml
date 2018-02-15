@@ -1,0 +1,14 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+ 
+<suite name="My first TestNG test suite" verbose="1" configfailurepolicy="continue">
+  <parameter name="username" value="john"/>
+  <parameter name="password" value="demo"/>
+  <parameter name="incorrectpassword" value="incorrect"/>
+  <parameter name="width" value="800"/>
+  <parameter name="height" value="600"/>
+  <test name="Login tests">
+  <packages>
+      <package name="TestNG"/>
+   </packages>
+ </test>
+</suite>
