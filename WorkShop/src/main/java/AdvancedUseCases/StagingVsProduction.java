@@ -3,6 +3,7 @@ package AdvancedUseCases;
 import com.applitools.eyes.BatchInfo;
 import com.applitools.eyes.MatchLevel;
 import com.applitools.eyes.RectangleSize;
+import com.applitools.eyes.TestResults;
 import com.applitools.eyes.selenium.Eyes;
 import com.applitools.eyes.selenium.StitchMode;
 import org.junit.*;
@@ -21,6 +22,7 @@ public class StagingVsProduction {
     public static Eyes eyes;
     public static BatchInfo batch;
     public String StagingURLPrefix="";
+
 
     @Rule public TestName name = new TestName();
 
@@ -53,27 +55,26 @@ public class StagingVsProduction {
 
     @Test
     public void tests_1_staging(){
-
-        login_test(true);
-
+        login_test(true , "staging - ");
     }
 
     @Test
     public void tests_2_production(){
 
-        login_test(false);
+        login_test(false, "production - ");
 
     }
 
-    public void login_test(boolean isStaging){
+    public void login_test(boolean isStaging, String stepPrefix){
+
         eyes.setSaveFailedTests(isStaging); // To ensure staging set as baseline
         driver.get("http://"+StagingURLPrefix+"/the-internet.herokuapp.com/login");
-        eyes.checkWindow("Form Page");
+        eyes.checkWindow(stepPrefix+"Form Page");
         driver.findElement(By.id("username")).sendKeys("tomsmith");
         driver.findElement(By.id("password")).sendKeys("SuperSecretPassword!");
-        eyes.checkWindow("Form Page - After filling fields");
+        eyes.checkWindow(stepPrefix+"Form Page - After filling fields");
         driver.findElement(By.cssSelector("#login > button")).click();
-        eyes.checkWindow("Valid login");
+        eyes.checkWindow(stepPrefix+"Valid login");
     }
 
 
