@@ -63,7 +63,7 @@ public class TestVideos {
     public void controlVideo(String videoLocator, String command){
         WebElement playerFrame = driver.findElement(By.id("player"));
         driver.switchTo().frame(playerFrame);
-        WebElement player = driver.findElement(By.cssSelector("video.video-stream.html5-main-video"));
+        WebElement player = driver.findElement(By.cssSelector(videoLocator));
         jse.executeScript("arguments[0]."+command+";", player);
         driver.switchTo().defaultContent();
     }
