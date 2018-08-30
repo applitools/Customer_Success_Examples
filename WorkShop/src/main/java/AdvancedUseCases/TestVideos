@@ -1,0 +1,115 @@
+package AdvancedUseCases;
+
+import com.applitools.eyes.BatchInfo;
+import com.applitools.eyes.MatchLevel;
+import com.applitools.eyes.RectangleSize;
+import com.applitools.eyes.selenium.Eyes;
+import com.applitools.eyes.selenium.StitchMode;
+import org.junit.*;
+import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.testng.annotations.AfterClass;
+
+
+public class TestVideos {
+
+    public static WebDriver driver;
+    public static Eyes eyes;
+    public static BatchInfo batch;
+    public static String testedURL= "https://applitools.com/customers";
+    public JavascriptExecutor jse;
+
+    @BeforeClass
+    public static void ClassSetup(){
+        batch = new BatchInfo("TestVideos");
+
+    }
+
+    @Before
+    public void setup(){
+        eyes = new Eyes();
+        eyes.setApiKey(System.getenv("APPLITOOLS_API_KEY"));
+        driver = new ChromeDriver();
+        jse = (JavascriptExecutor)driver;
+
+        eyes.setBatch(batch);
+        eyes.open(driver, "TestVideos", "Applitools_WebSite", new RectangleSize(800, 600));
+
+    }
+
+    @Test
+    public void testApplitoolsCustomersWebsite() throws InterruptedException {
+        driver.get(testedURL);
+        By startButoonLocator= By.cssSelector("body > div.page > div.customers > div:nth-child(2) > div > button");
+        By closeButoonLocator = By.cssSelector("body > div.page > div.customers > div.modal-container.in > div > button");
+
+        String videoLocator = ".html5-video-player > div.html5-video-container > video";
+
+        driver.findElement(startButoonLocator).click();
+        int duration = getVideoDuration(videoLocator);
+
+        for(int i=1;i<duration;i+=10){
+            setVideoTime(videoLocator,i);
+            eyes.checkWindow();
+        }
+
+        driver.findElement(closeButoonLocator).click();
+
+    }
+
+    public void controlVideo(String videoLocator, String command){
+        WebElement playerFrame = driver.findElement(By.id("player"));
+        driver.switchTo().frame(playerFrame);
+        WebElement player = driver.findElement(By.cssSelector("video.video-stream.html5-main-video"));
+        jse.executeScript("arguments[0]."+command+";", player);
+        driver.switchTo().defaultContent();
+    }
+
+    public void pauseVideo(String videoLocator){
+        controlVideo(videoLocator,"pause()");
+    }
+
+    public void playVideo(String videoLocator){
+        controlVideo(videoLocator,"play()");
+    }
+
+    public void stopVideo(String videoLocator){
+        controlVideo(videoLocator,"stop()");
+    }
+
+    public int getVideoDuration(String videoLocator) throws InterruptedException {
+        Thread.sleep(3000);
+        WebElement playerFrame = driver.findElement(By.id("player"));
+        driver.switchTo().frame(playerFrame);
+        WebElement player = driver.findElement(By.cssSelector("video.video-stream.html5-main-video"));
+        Double result = (Double) jse.executeScript("return arguments[0].getDuration();", player);
+
+        driver.switchTo().defaultContent();
+
+        return result.intValue();
+    }
+
+    public void setVideoTime(String videoLocator, int time){
+        pauseVideo(videoLocator);
+        controlVideo(videoLocator,"currentTime="+time);
+        System.out.println("Video set to time "+time);
+    }
+
+    @After
+    public void tearDown() {
+            eyes.close(false);
+            driver.close();
+    }
+
+    @AfterClass
+    public static void classTearDown(){
+
+    }
+
+
+
+}
+
