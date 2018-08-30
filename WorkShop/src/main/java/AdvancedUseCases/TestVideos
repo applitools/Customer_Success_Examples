@@ -95,7 +95,6 @@ public class TestVideos {
     public void setVideoTime(String videoLocator, int time){
         pauseVideo(videoLocator);
         controlVideo(videoLocator,"currentTime="+time);
-        System.out.println("Video set to time "+time);
     }
 
     @After
